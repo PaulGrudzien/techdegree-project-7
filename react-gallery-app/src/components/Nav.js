@@ -1,12 +1,14 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+
+// main Topics
+import mainTopics from '../mainTopics.js'
 
 function Nav() {
     return (
       <nav className="main-nav">
         <ul>
-          <li><a href='#'>Cats</a></li>
-          <li><a href='#'>Dogs</a></li>
-          <li><a href='#'>Computers</a></li>
+            {mainTopics.map( (topic, index) => <li key={index}><NavLink to={`/${topic}`} key={index}>{topic}</NavLink></li>)}
         </ul>
       </nav>
     );
