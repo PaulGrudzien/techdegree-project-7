@@ -2,7 +2,12 @@
 
 React Gallery App
 
-Note for me : add `config` location and how to use it
+You have to create a file named `config.js` in the `src` directory and write your Flickr API's key.
+This file must contains the two lines :
+```
+const apiKey = 'YOUR API KEY';
+export default apiKey;
+```
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

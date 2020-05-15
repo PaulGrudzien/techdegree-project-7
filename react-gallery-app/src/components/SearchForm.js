@@ -11,8 +11,7 @@ class SearchForm extends Component {
     
     handleSubmit = (event) => {
         event.preventDefault();
-        event.currentTarget.reset();
-        this.props.performSearch(this.state.value);
+        window.location.href = `/${this.state.topic}`;
     }
      
     render() {
