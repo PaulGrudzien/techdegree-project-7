@@ -9,6 +9,11 @@ const apiKey = 'YOUR API KEY';
 export default apiKey;
 ```
 
+You can change the main topics by changing the list contents in the file /src/mainTopics.js
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
