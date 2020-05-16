@@ -9,19 +9,14 @@ class SearchForm extends Component {
         this.setState({ topic: event.target.value })
     }
     
-    handleSubmit = (event) => {
-        event.preventDefault();
-        window.location.href = `/${this.state.topic}`;
-    }
-     
     render() {
         return (
-            <form className="search-form" onSubmit={this.handleSubmit}>
+            <form className="search-form" action="/" method="get">
                 <input
                     type="search"
                     value={this.state.value}
                     onChange={this.handleValueChange}
-                    name="search"
+                    name="searchTopic"
                     placeholder="Search"
                     required
                 />

@@ -12,7 +12,7 @@ function PhotoContainer({ photos, topic }) {
     });
     return (
         <div className="photo-container">
-            <h2>Search: {topic}</h2>
+            <h2>{topic}</h2>
             <ul>
                 {photosComponents}
             </ul>
