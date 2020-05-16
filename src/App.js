@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // App components
 import SearchForm from './components/SearchForm';
 import PhotoContainer from './components/PhotoContainer';
 import Nav from './components/Nav';
 import NotFound from './components/NotFound';
-import Loading from './components/Loading';
 
 // api key from config.js
 import apiKey from './config.js'
@@ -19,20 +18,20 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
+            topic: "",
             photos: [],
-            topic: null,
-            isLoading: true
+            isLoading: true,
         };
     }
 
     performSearch = (topic) => {
-        if (this.state.topic !== topic) {
+        if (topic !== this.state.topic) {
             const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${topic}&per_page=24&format=json&nojsoncallback=1`;
             fetch(url)
                 .then(response => response.json())
-                .then( results => {this.setState({ photos: results.photos.photo, topic, isLoading: false } )})
+                .then(results => {this.setState({ photos: results.photos.photo, isLoading: false, topic } )})
                 .catch(error => console.error('Error fetching and parsing data', error));
-        }
+            }
     };
 
     render() {
@@ -43,23 +42,31 @@ class App extends Component {
                     <Nav />
                     <Switch>
                         {/* route for search */}
-                        <Route exact path="/" render={ (props) => {
-                            const topic=props.location.search.replace("?searchTopic=","")
-                            if (topic === "") {return <Redirect to={`/${mainTopics[0]}`} />}
-                            this.performSearch(topic);
-                            if (this.state.isLoading) {return <Loading />}
-                            return <PhotoContainer photos={this.state.photos} topic={this.state.topic} />
-                        }} />
+                        <Route exact 
+                            path="/"
+                            render={(props) => (
+                                <PhotoContainer
+                                onSearch={this.performSearch}
+                                photos={this.state.photos}
+                                isLoading={this.state.isLoading}
+                                topic={props.location.search.replace("?searchTopic=","")}
+                                />)}
+                        />
                         {/* routes for main topics */}
-                        {mainTopics.map( (topic) => {
-                            return (
-                                <Route exact key={topic} path={`/${topic}`} render={ (props) => {
-                                    this.performSearch(topic);
-                                    if (this.state.isLoading) {return <Loading />}
-                                    return <PhotoContainer photos={this.state.photos} topic={this.state.topic} />
-                                }} />
+                        {mainTopics.map( (topic) => (
+                            <Route exact
+                                key={topic} 
+                                path={`/${topic}`}
+                                render={(props) => (
+                                <PhotoContainer
+                                    onSearch={this.performSearch}
+                                    photos={this.state.photos}
+                                    isLoading={this.state.isLoading}
+                                    topic={topic}
+                                    />)}
+                            />
                             )
-                        })}
+                        )}
                         {/* // other routes*/}
                         <Route component={NotFound} />
                     </Switch>
